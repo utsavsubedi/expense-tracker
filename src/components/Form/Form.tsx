@@ -26,22 +26,43 @@ function Form({categories, handleSubmit} : formProps) {
         resolver: zodResolver(schema)
       });
     return (
-        <form onSubmit={formSubmitHandler((data) => {handleSubmit(data)
-            reset();
-        })} className="mt-5">
-            <div className="form-group mb-3">
-                <label htmlFor="description" className="form-label">Description</label>
-                <input {...register('description')} type="text" className="form-control" id="description" />
-                {errors.description && <div className="text-danger">{errors.description.message}</div>}
+        <form 
+            onSubmit={formSubmitHandler((data) => {
+                handleSubmit(data);
+                reset();
+            })} 
+            className="p-4 shadow-sm rounded bg-light"
+        >
+            <h3 className="text-primary mb-4">Add Expense</h3>
+            <div className="form-group mb-4">
+                <label htmlFor="description" className="form-label fw-bold">Description</label>
+                <input 
+                    {...register('description')} 
+                    type="text" 
+                    className={`form-control ${errors.description ? 'is-invalid' : ''}`} 
+                    id="description" 
+                    placeholder="Enter description"
+                />
+                {errors.description && <div className="invalid-feedback">{errors.description.message}</div>}
             </div>
-            <div className="form-group mb-3">
-                <label htmlFor="amount" className="form-label">Amount</label>
-                <input {...register('amount', {valueAsNumber: true})} className="form-control" type="number"  id="amount" />
-                {errors.amount && <div className="text-danger">{errors.amount.message}</div>}
+            <div className="form-group mb-4">
+                <label htmlFor="amount" className="form-label fw-bold">Amount</label>
+                <input 
+                    {...register('amount', { valueAsNumber: true })} 
+                    className={`form-control ${errors.amount ? 'is-invalid' : ''}`} 
+                    type="number" 
+                    id="amount" 
+                    placeholder="Enter amount"
+                />
+                {errors.amount && <div className="invalid-feedback">{errors.amount.message}</div>}
             </div>
-            <div className="form-group mb-3">
-                <label htmlFor="category" className="form-label">Category</label>
-                <select {...register('category')} id="category" className="form-select">
+            <div className="form-group mb-4">
+                <label htmlFor="category" className="form-label fw-bold">Category</label>
+                <select 
+                    {...register('category')} 
+                    id="category" 
+                    className={`form-select ${errors.category ? 'is-invalid' : ''}`}
+                >
                     <option value="">Select a category</option>
                     {categories.map((category) => (
                         <option key={category} value={category}>
@@ -49,9 +70,9 @@ function Form({categories, handleSubmit} : formProps) {
                         </option>
                     ))}
                 </select>
-                {errors.category && <div className="text-danger">{errors.category.message}</div>}
+                {errors.category && <div className="invalid-feedback">{errors.category.message}</div>}
             </div>
-            <button className="btn btn-primary " type="submit">Submit</button>
+            <button className="btn btn-primary w-100" type="submit">Add Expense</button>
         </form>
     )
 }

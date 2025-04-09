@@ -1,5 +1,3 @@
-
-
 interface tableItem {
     description: string;
     amount: number;
@@ -13,21 +11,28 @@ interface tableItems {
     filterItems: (event: React.ChangeEvent<HTMLSelectElement>) => void;
 }
 
-function Table({ items, filterItems, categories,  handleDelete }: tableItems) {
+function Table({ items, filterItems, categories, handleDelete }: tableItems) {
     return (
-        <>
+        <div className="container mt-4">
+            <div className="d-flex justify-content-between align-items-center mb-4">
+                <h2 className="text-primary">Expense Tracker</h2>
+                <select 
+                    onChange={filterItems} 
+                    name="activeCategory" 
+                    id="activeCategory" 
+                    className="form-select w-25"
+                >
+                    <option key="all" value="all">All Categories</option>
+                    {categories.map((category) => (
+                        <option key={category} value={category}>
+                            {category.charAt(0).toUpperCase() + category.slice(1)}
+                        </option>
+                    ))}
+                </select>
+            </div>
 
-            <select onChange={filterItems} name="activeCategoy" id="activeCategory" className="form-select mt-5">
-                <option  key="all" value="all">All Categories</option>
-                {categories.map((category) => (
-                    <option key={category} value={category}>
-                        {category.charAt(0).toUpperCase() + category.slice(1)}
-                    </option>
-                ))}
-            </select>
-
-            <table className="table mt-5">
-                <thead className="thead-light">
+            <table className="table table-striped table-hover shadow-sm">
+                <thead className="table-primary">
                     <tr>
                         <th scope="col">#</th>
                         <th scope="col">Description</th>
@@ -37,32 +42,34 @@ function Table({ items, filterItems, categories,  handleDelete }: tableItems) {
                     </tr>
                 </thead>
                 <tbody>
-                    {items.length === 0 ? <h5>No items added yet</h5> :
-                        items.map((item, index) => {
-                            return (
-                                <tr key={index}>
-                                    <th scope="row">{index + 1}</th>
-                                    <td>{item.description}</td>
-                                    <td>{item.amount}</td>
-                                    <td>{item.category}</td>
-                                    <td>
-                                        <button
-                                            onClick={() => handleDelete(index)} 
-                                            className="btn btn-outline-danger"
-                                        >
-                                            Delete
-                                        </button>
-                                    </td>
-                                </tr>
-                            )
-                        }
-                        )
-                    }
-
+                    {items.length === 0 ? (
+                        <tr>
+                            <td colSpan={5} className="text-center text-muted">
+                                No items added yet
+                            </td>
+                        </tr>
+                    ) : (
+                        items.map((item, index) => (
+                            <tr key={index}>
+                                <th scope="row">{index + 1}</th>
+                                <td>{item.description}</td>
+                                <td>${item.amount.toFixed(2)}</td>
+                                <td>{item.category}</td>
+                                <td>
+                                    <button
+                                        onClick={() => handleDelete(index)} 
+                                        className="btn btn-outline-danger btn-sm"
+                                    >
+                                        Delete
+                                    </button>
+                                </td>
+                            </tr>
+                        ))
+                    )}
                 </tbody>
             </table>
-        </>
-    )
+        </div>
+    );
 }
 
 export default Table

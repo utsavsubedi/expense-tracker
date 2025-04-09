@@ -69,15 +69,24 @@ function App() {
 
   return (
     <>
-      <div className="container">
-        <h1>Form and Table</h1>
-        <Form categories={categories} handleSubmit={handleSubmit} />
-        <Table
-          filterItems={filterItems}
-          categories={categories}
-          items={filteredItems}
-          handleDelete={handleDelete}
-        />
+      <div className="container my-5">
+        <div className="text-center mb-5">
+          <h1 className="text-primary fw-bold">Expense Tracker</h1>
+          <p className="text-muted">Track your expenses efficiently and stay on top of your budget.</p>
+        </div>
+        <div className="row">
+          <div className="col-md-6">
+            <Form categories={categories} handleSubmit={handleSubmit} />
+          </div>
+          <div className="col-md-6">
+            <Table
+              filterItems={filterItems}
+              categories={categories}
+              items={filteredItems}
+              handleDelete={handleDelete}
+            />
+          </div>
+        </div>
       </div>
     </>
   );
